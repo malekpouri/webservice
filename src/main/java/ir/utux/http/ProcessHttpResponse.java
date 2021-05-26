@@ -88,7 +88,7 @@ public class ProcessHttpResponse {
     private void fillContentType(String filePath) {
         try {
             String extension=filePath.substring(filePath.lastIndexOf(".") + 1);
-            headers.add(ContentType.valueOf(extension.toUpperCase()).toString());
+            headers.add(ContentType.valueOf(extension.toUpperCase()).toString()+CRLF);
         } catch (Exception e) {
             LOGGER.error("content type not found", e);
         }
@@ -97,8 +97,8 @@ public class ProcessHttpResponse {
     private void fillHeader(Status status) {
 
         headers.add(this.VERSION + " " + status.toString() + CRLF);
-        headers.add("Connection: close" + CRLF);
         headers.add("Server: utuxWebServer" + CRLF);
+        headers.add("Connection: close" + CRLF);
 
     }
 
@@ -116,7 +116,7 @@ public class ProcessHttpResponse {
     }
 
     public void writeResponse(OutputStream stream) {
-        headers.add(CRLF+"Content-Length: "+pageBody.length+CRLF);
+        headers.add("Content-Length: "+pageBody.length+CRLF);
         DataOutputStream outputStream=new DataOutputStream(stream);
         headers.forEach(s -> {
             try {
