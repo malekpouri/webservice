@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProcessHttpResponse {
     private final Logger LOGGER=LoggerFactory.getLogger(this.getClass().getName());
@@ -19,6 +21,7 @@ public class ProcessHttpResponse {
     private final String CRLF="\r\n"; // 13 10
     private List<String> headers=new ArrayList<>();
     private WebConfiguration webConfiguration;
+    private Map<String,String> queryParameters= new HashMap<>();
     private byte[] pageBody;
 
     public ProcessHttpResponse(RequestHeader requestHeader) throws IOException {
@@ -38,6 +41,12 @@ public class ProcessHttpResponse {
                 try {
 
                     String requestPage=webConfiguration.getWebFolder() + requestHeader.getRequestURI();
+                    if (requestPage.indexOf('?')>-1){
+                        String queryParam=requestPage.substring(requestPage.indexOf('?')+1);
+                        requestPage=requestPage.substring(0,requestPage.indexOf('?'));
+                        parseQueryParam(queryParam);
+
+                    }
                     File request=new File(requestPage);
                     if (request.isDirectory()) {
                         // Check default Page is Exist
@@ -78,6 +87,17 @@ public class ProcessHttpResponse {
 
                 fillHeader(Status._501);
                 creatResponseBody(Status._501.toString());
+            }
+        }
+    }
+
+    private void parseQueryParam(String queryParam) {
+        for (String param:queryParam.split("&")){
+            int separator=param.indexOf('=');
+            if (separator>-1){
+                queryParameters.put(param.substring(0,separator-1),param.substring(separator+1));
+            }else {
+                queryParameters.put(param.substring(0,separator-1),null);
             }
         }
     }
