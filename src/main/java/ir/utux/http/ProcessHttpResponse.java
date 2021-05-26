@@ -29,7 +29,11 @@ public class ProcessHttpResponse {
 
     private void generateResponse() throws IOException {
         switch (requestHeader.getMethod()) {
-            case HEAD -> fillHeader(Status._200);
+            case HEAD -> {
+                fillHeader(Status._200);
+                fillContentType(ContentType.HTML);
+                creatResponseBody("");
+            }
             case GET -> {
                 try {
 
@@ -62,7 +66,9 @@ public class ProcessHttpResponse {
                     creatResponseBody(Status._404.toString());
                 }
             }
+            case POST -> {
 
+            }
             case UNRECOGNIZED -> {
                 fillHeader(Status._404);
                 creatResponseBody(Status._404.toString());
@@ -77,12 +83,15 @@ public class ProcessHttpResponse {
     }
 
     private void creatResponseBody(byte[] fileBytes) {
-
         pageBody=fileBytes;
     }
 
     private void creatResponseBody(String fileBytes) {
         pageBody=fileBytes.getBytes();
+    }
+
+    private void fillContentType(ContentType contentType) {
+        headers.add(contentType.toString()+CRLF);
     }
 
     private void fillContentType(String filePath) {
