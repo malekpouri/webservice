@@ -1,10 +1,0 @@
-
-`	java:S112 "FDefine and throw a dedicated exception instead of using a generic one.(¦Ê¤­úÿÿÿÿ
-=
-java:S2189""Add an end condition to this loop.(˜ïˆžÿÿÿÿÿ
-r	java:S116"QRename this field "LOGGER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öºÙÈøÿÿÿÿ8âÕµÆ™/
-t	java:S116"XRename this field "NUMBER_THREAD" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ë„¥Ã8ÞÙ¶Æ™/
->
-java:S1170"!Make this final field static too.(Ë„¥Ã8ßÙ¶Æ™/
-J
-java:S6212"/Declare this local variable with "var" instead.(Öç©ùùÿÿÿÿ
